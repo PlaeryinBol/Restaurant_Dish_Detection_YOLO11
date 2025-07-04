@@ -1,0 +1,55 @@
+# YOLOv11 Dataset Configuration
+# Restaurant dish detection dataset
+
+# Paths
+path: ./dataset  # dataset root dir
+train: images/train  # train images (relative to 'path')
+val: images/val      # val images (relative to 'path')
+test: images/test    # test images (relative to 'path')
+
+# Classes
+nc: 16  # number of classes
+names:
+  0: table knife
+  1: empty cup
+  2: glass teapot
+  3: visitor
+  4: bowl of salad
+  5: lavash flatbread
+  6: sauce boat
+  7: roasted ribs
+  8: bowl of soup
+  9: tablespoon
+  10: paper napkin
+  11: table fork
+  12: shot glass
+  13: smartphone
+  14: empty plate
+  15: waiter
+
+# Dataset info (Temporal Split Strategy)
+# Total images: 347
+# Train: 217 images (62.5%)
+# Validation: 90 images (26.0%)
+# Test: 40 images (11.5%)
+#
+# TEMPORAL SPLIT to avoid data leakage:
+# No adjacent frames in different splits
+#
+# TRAIN (Early temporal blocks):
+# - video1: frames 1-12 (all 12 frames - table setup)
+# - video2_1: frames 1-15 (early dish arrangement)  
+# - video3_1: frames 1-30 (early eating phase)
+# - video3_2: frames 1-70 (early finishing phase)
+# - video4: frames 1-90 (early clearing phase)
+#
+# VALIDATION (Middle temporal blocks):
+# - video2_1: frames 16-25 (late dish arrangement)
+# - video3_1: frames 31-45 (middle eating phase)
+# - video3_2: frames 71-100 (middle finishing phase)
+# - video4: frames 91-125 (middle clearing phase)
+#
+# TEST (Late temporal blocks):
+# - video3_1: frames 46-50 (late eating phase)
+# - video3_2: frames 101-116 (guests leaving)
+# - video4: frames 126-144 (final clearing) 

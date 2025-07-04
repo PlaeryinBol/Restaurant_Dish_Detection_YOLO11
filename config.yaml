@@ -1,0 +1,77 @@
+# Конфигурация тренировки YOLOv11
+# =======================================================
+
+# Основные настройки модели и данных
+model:
+  weights: 'yolo11n.pt'        # Предобученная модель (yolo11n, yolo11s, yolo11m, yolo11l, yolo11x)
+  data: 'dataset/data.yaml'    # Путь к конфигурации датасета
+
+# Параметры тренировки
+training:
+  epochs: 200
+  imgsz: [608, 640, 672]
+  batch: 12 
+  workers: 4
+  
+  # Настройки сохранения
+  project: 'runs/train'        # Папка для сохранения результатов
+  name: 'yolo11_dishes'        # Имя эксперимента
+  save: true                   # Сохранять чекпоинты
+  save_period: 10              # Сохранять каждые N эпох
+  
+  # Валидация и визуализация
+  val: true                    # Валидация во время обучения
+  plots: true                  # Генерировать графики
+  verbose: true                # Подробный вывод
+
+# Аугментация данных
+augmentation:
+  # Базовые геометрические трансформации
+  degrees: 8.0
+  translate: 0.15
+  scale: 0.25
+  
+  # Геометрические искажения (легкие)
+  shear: 2.0
+  perspective: 0.0002
+  
+  # Отражения
+  flipud: 0.0
+  fliplr: 0.5
+  
+  # Цветовые трансформации (±20% яркость/контраст)
+  hsv_h: 0.015
+  hsv_s: 0.3
+  hsv_v: 0.3
+  
+  # Продвинутые техники
+  mosaic: 0.5
+  mixup: 0.0
+  copy_paste: 0.2
+
+# Оптимизация
+optimization:
+  optimizer: 'AdamW'
+  lr0: 0.003
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0015
+  
+  # Прогрев
+  warmup_epochs: 3
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.1
+  
+  # Label smoothing для "мягких" границ при движении
+  label_smoothing: 0.1
+
+# Ранняя остановка
+early_stopping:
+  patience: 30
+
+# Настройки W&B
+wandb:
+  project_name: "yolo11_dishes"
+  entity: "plaeryinbol-everypixel"
+  experiment_name: "yolo11_dishes_motion_aware"
+  tags: ["motion", "video", "occlusion"]
