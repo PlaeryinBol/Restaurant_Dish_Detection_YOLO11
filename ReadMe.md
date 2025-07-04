@@ -126,6 +126,7 @@ python predict.py --model model.pt --source video.mov -o video_output.mp4
             shot glass         40         40      0.994          1      0.995      0.893
             smartphone         20         20      0.964          1      0.995      0.911
            empty plate         35         83          1      0.995      0.995      0.964
+                waiter          8         15       0.92      0.896      0.888       0.80
 
 Speed: 2.8ms preprocess, 22.7ms inference, 0.0ms loss, 4.4ms postprocess per image
 
