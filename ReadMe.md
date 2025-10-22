@@ -1,111 +1,111 @@
 # Restaurant_Dish_Detection_YOLO11
 
-Проект для обнаружения объектов в ресторанной среде с использованием модели YOLO11. Система способна распознавать 16 различных классов объектов: посуда, еда, персонал и посетители ресторана.
+A project for object detection in restaurant environments using the YOLO11 model. The system can recognize 16 different object classes: dishes, food, staff, and restaurant visitors.
 
-## Описание проекта
+## Project Description
 
-Этот проект реализует систему для автоматического обнаружения и классификации объектов в ресторанной среде. Используется архитектура YOLO11 для детекции объектов 16 в реальном времени.
+This project implements a system for automatic detection and classification of objects in restaurant environments. It uses the YOLO11 architecture for real-time object detection.
 
-## Особенности
+## Features
 
-- Обучение на кастомном датасете с темпоральным разделением
-- Интеграция с Weights & Biases для мониторинга экспериментов
-- Конфигурируемые параметры через YAML файлы
-- Продвинутая аугментация данных для видео сцен
-- Предсказание на изображениях и видео
-- Оценка качества модели с детальными метриками
-- Поддержка GPU и CPU
+- Training on a custom dataset with temporal splitting
+- Integration with Weights & Biases for experiment monitoring
+- Configurable parameters via YAML files
+- Advanced data augmentation for video scenes
+- Prediction on images and videos
+- Model evaluation with detailed metrics
+- GPU and CPU support
 
-## Установка
+## Installation
 
-1. **Клонирование репозитория**
+1. **Clone the repository**
 ```bash
-git clone https: //github.com/PlaeryinBol/Restaurant_Dish_Detection_YOLO11.git
+git clone https://github.com/PlaeryinBol/Restaurant_Dish_Detection_YOLO11.git
 cd Restaurant_Dish_Detection_YOLO11
 ```
 
-2. **Создание виртуального окружения**
+2. **Create virtual environment**
 ```bash
 python -m venv venv
 source venv/bin/activate
 ```
 
-3. **Установка зависимостей**
+3. **Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Настройка Weights & Biases (опционально)**
+4. **Setup Weights & Biases (optional)**
 ```bash
 wandb login
 ```
 
-## Структура датасета
+## Dataset Structure
 
-Датасет организован с использованием **темпорального разделения** для предотвращения утечки данных (хранится [здесь](https://drive.google.com/drive/folders/1LqMm9-j2ABd46gG7BUPc5ia3wQNvMUYX?usp=sharing) вместе с моделью, показавшей наилучшие метрики *best.pt*).  
-Разметка производилась через [CVAT](https://cvat.ai/).
+The dataset is organized using **temporal splitting** to prevent data leakage (stored [here](https://drive.google.com/drive/folders/1LqMm9-j2ABd46gG7BUPc5ia3wQNvMUYX?usp=sharing) along with the best-performing model *best.pt*).
+Annotation was done via [CVAT](https://cvat.ai/).
 
 ```
 dataset/
 ├── images/
-│   ├── train/    # 217 изображений (62.5%)
-│   ├── val/      # 90 изображений (26.0%)
-│   └── test/     # 40 изображений (11.5%)
-├── labels/       # YOLO формат аннотаций
-└── data.yaml     # Конфигурация датасета
+│   ├── train/    # 217 images (62.5%)
+│   ├── val/      # 90 images (26.0%)
+│   └── test/     # 40 images (11.5%)
+├── labels/       # YOLO format annotations
+└── data.yaml     # Dataset configuration
 ```
 
-**Принцип разделения**: Кадры из одного временного периода не попадают в разные выборки, что обеспечивает реалистичную оценку обобщающей способности модели.
+**Splitting principle**: Frames from the same time period do not appear in different splits, ensuring realistic evaluation of the model's generalization ability.
 
-## Обучение модели
+## Model Training
 
-### Настройка параметров
-Отредактируйте `config.yaml` для изменения параметров обучения:
+### Parameter Configuration
+Edit `config.yaml` to change training parameters:
 
-### Трейн
+### Train
 ```bash
 python train.py
 ```
 
-## Оценка модели
+## Model Evaluation
 
 ```bash
 python evaluate.py --model model.pt
 ```
 
-## Предикт
+## Prediction
 
-### На папке с картинками
+### On a folder with images
 ```bash
 python predict.py --model model.pt --source path/to/images/
 ```
 
-### На видео
+### On video
 ```bash
 python predict.py --model model.pt --source video.mov -o video_output.mp4
 ```
 
-## Конфигурация
+## Configuration
 
-### Аугментация данных
-Применяется комплекс аугментаций, учитывающий специфику видео данных:
-- Геометрические трансформации (поворот, сдвиг, масштаб)
-- Цветовые преобразования (HSV)
-- Техники мозаики и copy-paste
-- Label smoothing для "мягких" границ при движении
+### Data Augmentation
+A complex set of augmentations is applied, taking into account the specifics of video data:
+- Geometric transformations (rotation, shift, scale)
+- Color transformations (HSV)
+- Mosaic and copy-paste techniques
+- Label smoothing for "soft" boundaries during motion
 
-## Результаты
+## Results
 
-Модель обучена на ресторанных сценах с учетом:
-- Движения объектов в кадре
-- Частичных перекрытий (окклюзий)
-- Различного освещения
-- Разнообразных углов камеры
+The model is trained on restaurant scenes considering:
+- Object movement in the frame
+- Partial occlusions
+- Various lighting conditions
+- Diverse camera angles
 
-### Ключевые метрики
-Графики и метрики доступны [здесь](https://wandb.ai/plaeryinbol-everypixel/yolo11_dishes/reports/Restaurant_Dish_Detection_YOLO11--VmlldzoxMzQ1OTk3OQ).  
+### Key Metrics
+Charts and metrics are available [here](https://wandb.ai/plaeryinbol-everypixel/yolo11_dishes/reports/Restaurant_Dish_Detection_YOLO11--VmlldzoxMzQ1OTk3OQ).
 - **mAP@0.5**: 0.887
-- **mAP@0.5: 0.95**: 0.81
+- **mAP@0.5:0.95**: 0.81
 - **Precision**: 0.938
 - **Recall**: 0.894
 
@@ -130,5 +130,5 @@ python predict.py --model model.pt --source video.mov -o video_output.mp4
 
 Speed: 2.8ms preprocess, 22.7ms inference, 0.0ms loss, 4.4ms postprocess per image
 
-### Пример результата
-![Пример работы модели на видео](output.gif)
+### Example Result
+![Model working example on video](output.gif)
